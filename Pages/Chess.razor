@@ -1,0 +1,28 @@
+﻿@page "/chess"
+@using BlazorChess.Models;
+
+<h3>Chess</h3>
+
+<svg>
+    @for(int y = 0; y<boardX; y++)
+    {
+        for(int x = 0; x<boardY; x++)
+        {
+            <rect x="@(x*sizeMultiply)" y="@(y*sizeMultiply)" width="@sizeMultiply" height="@sizeMultiply" fill="@((x+(y%2==1?1:0))%2 == 0?"white":"black")" >
+            </rect>
+        }
+    }
+</svg>
+
+
+
+
+
+        @code {
+        private static Board borad = new Board();
+
+        private static readonly int sizeMultiply = 10;
+
+        private int boardX = borad.Tiles.GetLength(0);
+        private int boardY = borad.Tiles.GetLength(1);
+}
