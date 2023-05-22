@@ -2,14 +2,39 @@
 @using BlazorChess.Models;
 
 <h3>Chess</h3>
+<link type="text/css" href="~/css/chess.css"/>
+
+<style>
+
+    .color1 {
+        fill: white;
+    }
+
+    .color2 {
+        fill: black;
+    }
+
+    .color3{
+        fill: red;
+    }
+
+</style>
+
+
 
 <svg>
-    @for(int y = 0; y<boardX; y++)
+    @for (int y = 0; y < boardY; y++)
     {
-        for(int x = 0; x<boardY; x++)
+        @for (int x = 0; x < boardX; x++)
         {
-            <rect x="@(x*sizeMultiply)" y="@(y*sizeMultiply)" width="@sizeMultiply" height="@sizeMultiply" fill="@((x+(y%2==1?1:0))%2 == 0?"white":"black")" >
+            <rect x="@(x*sizeMultiply)" y="@(y*sizeMultiply)" width="@sizeMultiply" height="@sizeMultiply" class="@( new Func<string>(()=>{return TileClass(x,y);})() )">
             </rect>
+            @if (board.Tiles[x, y].OccupyingPrice != null)
+            {
+                var x2 = x;
+                var y2 = y;
+                <circle cx="@(x*sizeMultiply)" cy="@(y*sizeMultiply)" r="@(sizeMultiply/2)" fill="red" onclick="@(() => ShowAllowedMoves(x2,y2))"></circle>
+            }
         }
     }
 </svg>
@@ -18,11 +43,46 @@
 
 
 
-        @code {
-        private static Board borad = new Board();
+@code {
+    private static Board board = new Board();
 
-        private static readonly int sizeMultiply = 10;
+    private static readonly int sizeMultiply = 10;
 
-        private int boardX = borad.Tiles.GetLength(0);
-        private int boardY = borad.Tiles.GetLength(1);
+    private int boardX = board.Tiles.GetLength(0);
+    private int boardY = board.Tiles.GetLength(1);
+
+    private bool[,] highLightTile = new bool[board.Tiles.GetLength(0), board.Tiles.GetLength(1)];
+
+    private void ShowAllowedMoves(int x, int y)
+    {
+        //TODO clear the table
+        //highLightTile.
+
+        @for (int i = 0; i < boardX; i++)
+        {
+            for (int j = 0; j < boardY; j++)
+            {
+                highLightTile[i, j] = false;
+            }
+        }
+
+        foreach (var move in board.Tiles[x, y].OccupyingPrice.AllowedMoves(board, x, y))
+        {
+            highLightTile[move.XDestination, move.YDestination] = true;
+        }
+        this.StateHasChanged();
+    }
+
+
+    private string TileClass(int x, int y)
+    {
+        if (highLightTile[x, y])
+        {
+            return "color3";
+        }
+        else
+        {
+            return (x + (y % 2 == 1 ? 1 : 0)) % 2 == 0 ? "color1" : "color2";
+        }
+    }
 }

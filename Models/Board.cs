@@ -1,4 +1,6 @@
-﻿namespace BlazorChess.Models
+﻿using BlazorChess.Models.Pieces;
+
+namespace BlazorChess.Models
 {
     public class Board
     {
@@ -15,6 +17,8 @@
                     Tiles[x, y] = new Tile();
                 }
             }
+
+            Tiles[5, 5].OccupyingPrice = new Bishop();
         }
 
         public bool IsValidSquare(int x, int y)
