@@ -34,6 +34,24 @@ namespace BlazorChess.Models
             return true;
         }
 
+        public bool Move(int fromX, int fromY, int toX, int toY)
+        {
+            var toMove = Tiles[fromX, fromY].OccupyingPrice;
+            if(toMove == null)
+            {
+                return false;
+            }
+            if(!toMove.AllowedMoves(this, fromX, fromY).Any(z => z.YDestination == toY && z.XDestination == toX))
+            {
+                return false;
+            }
+
+            Tiles[toX, toY].OccupyingPrice = toMove;
+
+            Tiles[fromX, fromY].OccupyingPrice = null;
+            return true;
+        }
+
 
     }
 }
