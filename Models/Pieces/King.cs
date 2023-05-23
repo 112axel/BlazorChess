@@ -2,7 +2,9 @@
 {
     public class King:Piece
     {
-        bool HasMoved = false;
+        public King(string assetPath) : base(assetPath)
+        {
+        }
 
         public override List<Move> AllowedMoves(Board board ,int x, int y)
         {

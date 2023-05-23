@@ -5,11 +5,23 @@
         bool IsBlack { get; set; }
 
         public abstract List<Move> AllowedMoves(Board board, int x, int y);
-//TODO consider making a tuple alternative class
-        private Tuple<int, int>[] DirectionModifierTable = { Tuple.Create(1, 1), Tuple.Create(1, -1), Tuple.Create(-1, 1), Tuple.Create(-1, -1) };
+
+        public string AssetPath { get; }
+
+        public Piece(string pieceName)
+        {
+            const string basePath = "Asset/Pieces/";
+
+            pieceName = (IsBlack ? "b_" : "w_") + pieceName;
+            pieceName += "_svg_NoShadow.svg";
+            AssetPath = basePath + pieceName;
+        }
+
 
         public List<Move> DiagonalMove(Board board, int x, int y, int maxMoveLength = 1000)
         {
+            //TODO consider making a tuple alternative class
+            Tuple<int, int>[] DirectionModifierTable = { Tuple.Create(1, 1), Tuple.Create(1, -1), Tuple.Create(-1, 1), Tuple.Create(-1, -1) };
             List<Move> outputMoves = new List<Move>();
             foreach(var DirectionModifier in DirectionModifierTable)
             {
