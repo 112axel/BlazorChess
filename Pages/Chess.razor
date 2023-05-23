@@ -5,6 +5,9 @@
 <link type="text/css" href="~/css/chess.css"/>
 
 <style>
+    svg{
+        border:solid black 2px;
+    }
 
     .color1 {
         fill: white;
@@ -22,7 +25,7 @@
 
 
 
-<svg width="100%" height="100%" viewBox="0 0 100 100">
+<svg width="90vh" height="90vh" viewBox="0 0 80 80">
     @for (int y = 0; y < boardY; y++)
     {
         @for (int x = 0; x < boardX; x++)
@@ -36,8 +39,12 @@
             </rect>
             @if (board.Tiles[x, y].OccupyingPrice != null)
             {
-                @*<circle cx="@(x*sizeMultiply)" cy="@(y*sizeMultiply)" r="@(sizeMultiply/2)" fill="red" onclick="@(() => ShowAllowedMoves(x2,y2))"></circle>*@
-                <image x="@(x*sizeMultiply)" y="@(y*sizeMultiply)" width="@sizeMultiply" height="@sizeMultiply" href="@board.Tiles[x,y].OccupyingPrice.AssetPath"></image>
+                @*<circle cx="@(x*sizeMultiply)" cy="@(y*sizeMultiply)" r="@(sizeMultiply/2)" fill="red" ></circle>*@
+                <image x="@(x*sizeMultiply)" y="@(y*sizeMultiply)" width="@sizeMultiply" height="@sizeMultiply" 
+                    href="@board.Tiles[x,y].OccupyingPrice.AssetPath"
+                    onclick="@(() => ShowAllowedMoves(x2,y2))">
+                
+                </image>
 
             }
         }
