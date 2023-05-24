@@ -2,13 +2,15 @@
 {
     public class King:Piece
     {
-        public King(string assetPath) : base(assetPath)
+        public King(bool isBlack) : base("king",isBlack)
         {
         }
 
         public override List<Move> AllowedMoves(Board board ,int x, int y)
         {
-            throw new NotImplementedException();
+            var allAlowedMoves = DiagonalMove(board, x, y, 1); 
+            allAlowedMoves.AddRange(LinearMove(board,x,y,1));
+            return allAlowedMoves;
         }
     }
 

@@ -39,11 +39,9 @@
             </rect>
             @if (board.Tiles[x, y].OccupyingPrice != null)
             {
-                @*<circle cx="@(x*sizeMultiply)" cy="@(y*sizeMultiply)" r="@(sizeMultiply/2)" fill="red" ></circle>*@
                 <image x="@(x*sizeMultiply)" y="@(y*sizeMultiply)" width="@sizeMultiply" height="@sizeMultiply" 
                     href="@board.Tiles[x,y].OccupyingPrice.AssetPath"
                     onclick="@(() => ShowAllowedMoves(x2,y2))">
-                
                 </image>
 
             }

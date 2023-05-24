@@ -2,7 +2,7 @@
 {
     public class Bishop : Piece
     {
-        public Bishop() : base("bishop")
+        public Bishop(bool isBlack) : base("bishop",isBlack)
         {
         }
 

@@ -18,7 +18,8 @@ namespace BlazorChess.Models
                 }
             }
 
-            Tiles[5, 5].OccupyingPrice = new Bishop();
+            Tiles[5, 5].OccupyingPrice = new Bishop(true);
+            Tiles[2, 2].OccupyingPrice = new King(false);
         }
 
         public bool IsValidSquare(int x, int y)
