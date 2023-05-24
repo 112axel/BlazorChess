@@ -2,7 +2,7 @@
 {
     public abstract class Piece
     {
-        bool IsBlack { get; set; }
+        public bool IsBlack { get; set; }
 
         public abstract List<Move> AllowedMoves(Board board, int x, int y);
 
