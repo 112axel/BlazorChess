@@ -1,0 +1,46 @@
+namespace BlazorChess.Models.Pieces
+{
+    public class Knight : Piece
+    {
+        public Knight(bool isBlack) : base("knight", isBlack)
+        {
+        }
+
+        public override List<Move> AllowedMoves(Board board, int x, int y)
+        {
+            return KnightMove(board,x,y);
+        }
+
+        private List<Move> KnightMove(Board board,int x, int y)
+        {
+            Tuple<int, int>[] DirectionModifierTable = { Tuple.Create(1, 0), Tuple.Create(0, 1), Tuple.Create(-1, 0), Tuple.Create(0, -1) };
+            List<Move> outputMoves = new List<Move>();
+            int distance = 2;
+
+            foreach (var DirectionModifier in DirectionModifierTable)
+            {
+                    int moveX = x + distance * DirectionModifier.Item1;
+                    int moveY = y + distance * DirectionModifier.Item2;
+
+                    if (!board.IsValidSquare(moveX, moveY))
+                    {
+                        continue;
+                    }
+                    if (board.Tiles[moveX, moveY].OccupyingPrice == null)
+                    {
+                        outputMoves.Add(new Move(moveX, moveY));
+                    }
+                    else if (board.Tiles[moveX, moveY].OccupyingPrice.IsBlack != IsBlack)
+                    {
+                        outputMoves.Add(new Move(moveX, moveY));
+                        break;
+                    }
+                    else
+                    {
+                        break;
+                    }
+            }
+            return outputMoves;
+        }
+    }
+}

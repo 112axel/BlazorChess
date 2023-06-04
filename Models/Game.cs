@@ -19,12 +19,14 @@
             {
                 return false;
             }
+            
+          bool allowedMove = GameBoard.Move(fromX, fromY, toX, toY);
+            if (allowedMove)
+            {
+                IsBlackTurn = !IsBlackTurn;
+            }
 
-            GameBoard.Move(fromX, fromY, toX, toY);
-
-            IsBlackTurn = !IsBlackTurn;
-
-            return true;
+            return allowedMove;
 
         }
 
