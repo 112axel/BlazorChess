@@ -35,11 +35,6 @@
                     else if (board.Tiles[moveX, moveY].OccupyingPrice.IsBlack != IsBlack)
                     {
                         outputMoves.Add(new Move(moveX, moveY));
-                        continue;
-                    }
-                    else
-                    {
-                        continue;
                     }
                 }
             }
