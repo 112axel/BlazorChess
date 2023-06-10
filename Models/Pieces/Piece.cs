@@ -4,7 +4,7 @@
     {
         public bool IsBlack { get; set; }
 
-        public abstract List<Move> AllowedMoves(Board board, int x, int y);
+        public abstract List<MoveOption> AllowedMoves(Board board, int x, int y);
 
         public string AssetPath { get; }
 
@@ -14,17 +14,17 @@
 
             const string basePath = "Asset/Pieces/";
 
-           pieceName = (IsBlack ? "b_" : "w_") + pieceName;
+            pieceName = (IsBlack ? "b_" : "w_") + pieceName;
             pieceName += "_svg_NoShadow.svg";
             AssetPath = basePath + pieceName;
         }
+        //TODO move validation to a new method
 
-
-        public List<Move> DiagonalMove(Board board, int x, int y, int maxMoveLength = 1000)
+        public List<MoveOption> DiagonalMove(Board board, int x, int y, int maxMoveLength = 1000)
         {
             //TODO consider making a tuple alternative class
             Tuple<int, int>[] DirectionModifierTable = { Tuple.Create(1, 1), Tuple.Create(1, -1), Tuple.Create(-1, 1), Tuple.Create(-1, -1) };
-            List<Move> outputMoves = new List<Move>();
+            List<MoveOption> outputMoves = new List<MoveOption>();
             foreach (var DirectionModifier in DirectionModifierTable)
             {
                 for (int distance = 1; distance <= maxMoveLength; distance++)
@@ -38,11 +38,11 @@
                     }
                     if (board.Tiles[moveX, moveY].OccupyingPrice == null)
                     {
-                        outputMoves.Add(new Move(moveX, moveY));
+                        outputMoves.Add(new MoveOption(moveX, moveY));
                     }
                     else if (board.Tiles[moveX, moveY].OccupyingPrice.IsBlack != IsBlack)
                     {
-                        outputMoves.Add(new Move(moveX, moveY));
+                        outputMoves.Add(new MoveOption(moveX, moveY));
                         break;
                     }
                     else
@@ -54,11 +54,11 @@
             return outputMoves;
         }
 
-        public List<Move> LinearMove(Board board, int x, int y, int maxMoveLength = 1000)
+        public List<MoveOption> LinearMove(Board board, int x, int y, int maxMoveLength = 1000)
         {
             //TODO consider making a tuple alternative class
             Tuple<int, int>[] DirectionModifierTable = { Tuple.Create(1, 0), Tuple.Create(0, 1), Tuple.Create(-1, 0), Tuple.Create(0, -1) };
-            List<Move> outputMoves = new List<Move>();
+            List<MoveOption> outputMoves = new List<MoveOption>();
             foreach (var DirectionModifier in DirectionModifierTable)
             {
                 for (int distance = 1; distance <= maxMoveLength; distance++)
@@ -72,11 +72,11 @@
                     }
                     if (board.Tiles[moveX, moveY].OccupyingPrice == null)
                     {
-                        outputMoves.Add(new Move(moveX, moveY));
+                        outputMoves.Add(new MoveOption(moveX, moveY));
                     }
                     else if (board.Tiles[moveX, moveY].OccupyingPrice.IsBlack != IsBlack)
                     {
-                        outputMoves.Add(new Move(moveX, moveY));
+                        outputMoves.Add(new MoveOption(moveX, moveY));
                         break;
                     }
                     else

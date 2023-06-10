@@ -6,15 +6,15 @@
         {
         }
 
-        public override List<Move> AllowedMoves(Board board, int x, int y)
+        public override List<MoveOption> AllowedMoves(Board board, int x, int y)
         {
             return KnightMove(board,x,y);
         }
 
-        private List<Move> KnightMove(Board board,int x, int y)
+        private List<MoveOption> KnightMove(Board board,int x, int y)
         {
             Tuple<int, int>[] DirectionModifierTable = { Tuple.Create(2, 1), Tuple.Create(-1, 2), Tuple.Create(-2, 1), Tuple.Create(1, 2) };
-            List<Move> outputMoves = new List<Move>();
+            List<MoveOption> outputMoves = new List<MoveOption>();
             int distance = 1;
 
             foreach (var DirectionModifier in DirectionModifierTable)
@@ -30,11 +30,11 @@
                     }
                     if (board.Tiles[moveX, moveY].OccupyingPrice == null)
                     {
-                        outputMoves.Add(new Move(moveX, moveY));
+                        outputMoves.Add(new MoveOption(moveX, moveY));
                     }
                     else if (board.Tiles[moveX, moveY].OccupyingPrice.IsBlack != IsBlack)
                     {
-                        outputMoves.Add(new Move(moveX, moveY));
+                        outputMoves.Add(new MoveOption(moveX, moveY));
                     }
                 }
             }

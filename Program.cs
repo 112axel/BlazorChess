@@ -1,6 +1,9 @@
 using BlazorChess.Data;
+using BlazorChess.Hubs;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.ResponseCompression;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,8 +11,22 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddSingleton<WeatherForecastService>();
+builder.Services.AddResponseCompression(opts =>
+{
+    opts.MimeTypes = ResponseCompressionDefaults.MimeTypes.Concat(
+        new[] { "application/octet-stream" });
+});
+
+builder.Services.AddDbContext<ChessContext>(options =>
+{
+    //options.UseNpgsql("postgresql://localhost/mydb?user=postgres&password=1234");
+    options.UseNpgsql("Host=localhost;Database=ChessDb; Username=postgres; Password=1234;");
+});
 
 var app = builder.Build();
+
+app.UseResponseCompression();
+//app.MapHub<GameHub>("/chess");
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -18,6 +35,8 @@ if (!app.Environment.IsDevelopment())
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
+
+
 
 app.UseHttpsRedirection();
 

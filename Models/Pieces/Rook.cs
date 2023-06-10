@@ -6,7 +6,7 @@
         {
         }
 
-        public override List<Move> AllowedMoves(Board board, int x, int y)
+        public override List<MoveOption> AllowedMoves(Board board, int x, int y)
         {
             return LinearMove(board, x, y);
         }

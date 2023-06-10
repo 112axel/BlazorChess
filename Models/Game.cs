@@ -1,9 +1,15 @@
-﻿namespace BlazorChess.Models
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace BlazorChess.Models
 {
     public class Game
     {
+        public int Id { get; set; }
+        [NotMapped]
         public Board GameBoard { get; set; }
         public bool IsBlackTurn { get; set; }
+
+        public virtual List<HistoryMove> MovesMade { get; set; }
 
         public Game()
         {

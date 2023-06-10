@@ -1,11 +1,11 @@
 ﻿namespace BlazorChess.Models
 {
-    public class Move
+    public record MoveOption
     {
         public int XDestination { get; set; }
         public int YDestination { get; set; }
         
-        public Move(int x,int y)
+        public MoveOption(int x,int y)
         {
             XDestination = x;
             YDestination = y;

@@ -5,8 +5,9 @@
         public Pawn(bool isBlack) : base("pawn", isBlack)
         {
         }
-        //TODO implement movement
-        public override List<Move> AllowedMoves(Board board, int x, int y)
+
+        //TODO add a way to check if pawn has moved
+        public override List<MoveOption> AllowedMoves(Board board, int x, int y)
         {
 
             var allAlowedMoves = PawnMove(board, x, y); 
@@ -14,9 +15,9 @@
             return allAlowedMoves;
         }
 
-        private List<Move> PawnMove(Board board, int x, int y)
+        private List<MoveOption> PawnMove(Board board, int x, int y)
         {
-            List<Move> outputMoves = new List<Move>();
+            List<MoveOption> outputMoves = new List<MoveOption>();
             int distance = 1;
             int directionMod = ForwardMultiplier(board, x, y);
 
@@ -28,14 +29,14 @@
                 }
                 if (board.Tiles[moveX, moveY].OccupyingPrice == null)
                 {
-                    outputMoves.Add(new Move(moveX, moveY));
+                    outputMoves.Add(new MoveOption(moveX, moveY));
                 }
             return outputMoves;
         }
 
-        private List<Move> KillingMove(Board board, int x, int y)
+        private List<MoveOption> KillingMove(Board board, int x, int y)
         {
-            List<Move> outputMoves = new List<Move>();
+            List<MoveOption> outputMoves = new List<MoveOption>();
             int distance = 1;
             int directionMod = ForwardMultiplier(board, x, y);
 
@@ -54,7 +55,7 @@
                     continue;
                 }
                 if (board.Tiles[moveX,moveY].OccupyingPrice.IsBlack != IsBlack) {
-                    outputMoves.Add(new Move(moveX, moveY));
+                    outputMoves.Add(new MoveOption(moveX, moveY));
                 }
 
             }
@@ -62,7 +63,7 @@
         }
 
 
-        private int ForwardMultiplier(Board board, int x, int y)
+        private static int ForwardMultiplier(Board board, int x, int y)
         {
             return board.Tiles[x, y].OccupyingPrice.IsBlack? 1 : -1;
         }

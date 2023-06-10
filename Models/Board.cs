@@ -21,7 +21,8 @@ namespace BlazorChess.Models
             Tiles[5, 5].OccupyingPrice = new Bishop(true);
             Tiles[2, 2].OccupyingPrice = new King(false);
             Tiles[4, 4].OccupyingPrice = new Knight(false);
-            
+            Tiles[3, 3].OccupyingPrice = new Pawn(false);
+
         }
 
         public bool IsValidSquare(int x, int y)
@@ -48,7 +49,7 @@ namespace BlazorChess.Models
             {
                 return false;
             }
-
+            
             Tiles[toX, toY].OccupyingPrice = toMove;
 
             Tiles[fromX, fromY].OccupyingPrice = null;
