@@ -19,14 +19,14 @@ builder.Services.AddResponseCompression(opts =>
 
 builder.Services.AddDbContext<ChessContext>(options =>
 {
-    //options.UseNpgsql("postgresql://localhost/mydb?user=postgres&password=1234");
     options.UseNpgsql("Host=localhost;Database=ChessDb; Username=postgres; Password=1234;");
 });
 
 var app = builder.Build();
 
 app.UseResponseCompression();
-//app.MapHub<GameHub>("/chess");
+app.MapHub<GameHub>("/GameHub");
+app.MapHub<BoardHub>("/BoardHub");
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using BlazorChess.Data;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorChess.Models
 {
@@ -12,6 +13,11 @@ namespace BlazorChess.Models
         public virtual List<HistoryMove> MovesMade { get; set; }
 
         public Game()
+        {
+            SetBaseState();
+        }
+
+        public void SetBaseState()
         {
             GameBoard = new Board();
             IsBlackTurn = false;
@@ -34,6 +40,10 @@ namespace BlazorChess.Models
 
             return allowedMove;
 
+        }
+        public bool Move(HistoryMove move)
+        {
+            return Move(move.FromX,move.FromY,move.ToX, move.ToY);
         }
 
 

@@ -35,7 +35,7 @@ namespace BlazorChess.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Games");
+                    b.ToTable("Games", (string)null);
                 });
 
             modelBuilder.Entity("BlazorChess.Models.HistoryMove", b =>
@@ -65,7 +65,7 @@ namespace BlazorChess.Migrations
 
                     b.HasIndex("GameId");
 
-                    b.ToTable("HistoryMove");
+                    b.ToTable("HistoryMove", (string)null);
                 });
 
             modelBuilder.Entity("BlazorChess.Models.HistoryMove", b =>

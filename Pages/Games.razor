@@ -1,0 +1,85 @@
+﻿@page "/chess"
+@using BlazorChess.Models;
+@using Microsoft.AspNetCore.SignalR.Client;
+@inject NavigationManager Navigation
+<h3>Games</h3>
+
+@if(SelectedGame != null)
+{
+    <BoardComp Game="@SelectedGame"></BoardComp>
+}
+
+<button onclick="@CreateNewGame">create new game</button>
+<button onclick="@GetGames">get new game</button>
+<ul>
+    @foreach(var game in GameList)
+    {
+        <li>
+            <button onclick="@(()=>SelectGame(game))">testing</button>
+        </li>
+    }
+</ul>
+
+
+
+
+@code {
+
+    private Game? SelectedGame = null;
+    private HubConnection? hubConnection { get; set; }
+    private List<Game> GameList { get; set; } = new List<Game>();
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        hubConnection = new HubConnectionBuilder()
+        .WithUrl(Navigation.ToAbsoluteUri("/GameHub"))
+        .Build();
+
+
+        hubConnection.On<Game>("newGame",(newGame) =>
+        {
+            GameList.Add(newGame);
+            InvokeAsync(StateHasChanged);
+        });
+        hubConnection.On<List<Game>>("gameList",(list) =>
+        {
+            GameList = list;
+            InvokeAsync(StateHasChanged);
+        });
+
+        await hubConnection.StartAsync();
+        GetGames();
+    }
+
+    private void SelectGame(Game game)
+    {
+        SelectedGame = game;
+        StateHasChanged();
+    }
+
+    private async void GetGames()
+    {
+        if(hubConnection is not null)
+        {
+            if(hubConnection.State == HubConnectionState.Disconnected)
+            {
+                await hubConnection.StartAsync();
+            }
+            await hubConnection.SendAsync("GetGameList");
+        }
+    }
+
+    private async void CreateNewGame()
+    {
+        if(hubConnection is not null)
+        {
+            if(hubConnection.State == HubConnectionState.Disconnected)
+            {
+                await hubConnection.StartAsync();
+            }
+            await hubConnection.SendAsync("CreateNewGame");
+        }
+    }
+}

@@ -1,4 +1,5 @@
-﻿using BlazorChess.Models.Pieces;
+﻿using BlazorChess.Data;
+using BlazorChess.Models.Pieces;
 
 namespace BlazorChess.Models
 {
