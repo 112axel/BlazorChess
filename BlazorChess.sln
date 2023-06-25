@@ -1,9 +1,13 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.6.33712.159
+VisualStudioVersion = 17.6.33717.318
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorChess", "BlazorChess.csproj", "{A2750830-682A-4D5B-B353-133B0E896B02}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorChess.Client", "Client\BlazorChess.Client.csproj", "{B3390DCC-E3EE-4AAF-B773-3305E4DEC597}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorChess.Server", "Server\BlazorChess.Server.csproj", "{1AA1B64A-DC34-41F8-A817-BFC22604AD85}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorChess.Shared", "Shared\BlazorChess.Shared.csproj", "{EE86FE57-2EEC-4B2F-AFED-36AC2A6F9D08}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +15,23 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{A2750830-682A-4D5B-B353-133B0E896B02}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{A2750830-682A-4D5B-B353-133B0E896B02}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{A2750830-682A-4D5B-B353-133B0E896B02}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{A2750830-682A-4D5B-B353-133B0E896B02}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B3390DCC-E3EE-4AAF-B773-3305E4DEC597}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B3390DCC-E3EE-4AAF-B773-3305E4DEC597}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B3390DCC-E3EE-4AAF-B773-3305E4DEC597}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B3390DCC-E3EE-4AAF-B773-3305E4DEC597}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1AA1B64A-DC34-41F8-A817-BFC22604AD85}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1AA1B64A-DC34-41F8-A817-BFC22604AD85}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1AA1B64A-DC34-41F8-A817-BFC22604AD85}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1AA1B64A-DC34-41F8-A817-BFC22604AD85}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EE86FE57-2EEC-4B2F-AFED-36AC2A6F9D08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EE86FE57-2EEC-4B2F-AFED-36AC2A6F9D08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EE86FE57-2EEC-4B2F-AFED-36AC2A6F9D08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EE86FE57-2EEC-4B2F-AFED-36AC2A6F9D08}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {E6AC41FB-624B-4414-ACA8-1317FEB8E1B6}
+		SolutionGuid = {AD700835-1151-4263-9A50-204B40AB06EA}
 	EndGlobalSection
 EndGlobal
