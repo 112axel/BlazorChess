@@ -1,4 +1,5 @@
 ﻿@using BlazorChess.Shared.Models
+@using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.SignalR.Client
 @inject NavigationManager Navigation
 
@@ -33,14 +34,22 @@
         {
             var x2 = x;
             var y2 = y;
-            <rect x="@(x*sizeMultiply)" y="@(y*sizeMultiply)"
+            var flippedX = x;
+            var flippedY = y;
+            if (isFlipped)
+            {
+                flippedX = boardX - 1 - x;
+                flippedY = boardY - 1 - y;
+            }
+
+            <rect x="@(flippedX*sizeMultiply)" y="@(flippedY*sizeMultiply)"
                   width="@sizeMultiply" height="@sizeMultiply"
                   class="@( new Func<string>(()=>{return TileClass(x,y);})() )"
                   onclick="@(()=> HandleClick(x2,y2))">
             </rect>
             @if (Game.GameBoard.Tiles[x, y].OccupyingPrice != null)
             {
-                <image x="@(x*sizeMultiply)" y="@(y*sizeMultiply)" width="@sizeMultiply" height="@sizeMultiply"
+                <image x="@(flippedX*sizeMultiply)" y="@(flippedY*sizeMultiply)" width="@sizeMultiply" height="@sizeMultiply"
                        href="@Game.GameBoard.Tiles[x,y].OccupyingPrice.AssetPath"
                        onclick="@(() => HandleClick(x2,y2))">
                 </image>
@@ -49,6 +58,10 @@
         }
     }
 </svg>
+<label>
+    Flipped
+    <InputCheckbox @bind-Value="isFlipped" onchange="@StateHasChanged" />
+</label>
 
 <h1>page is not found</h1>
 
@@ -57,6 +70,7 @@
 
 
 @code {
+    private bool isFlipped = false;
     private string testValue = "";
     [Parameter]
     public Game Game { get; set; }
@@ -97,20 +111,22 @@
         {
             Game.SetBaseState();
 
-            foreach(var move in moves)
+            foreach (var move in moves)
             {
                 Game.Move(move);
             }
+            ClearHighlightTile();
             InvokeAsync(StateHasChanged);
         });
 
-        hubConnection.On<HistoryMove>("Move",(move)=>{
+        hubConnection.On<HistoryMove>("Move", (move) =>
+        {
             Game.Move(move);
             InvokeAsync(StateHasChanged);
         });
 
         await hubConnection.StartAsync();
-        await hubConnection.SendAsync("GetHistory",Game.Id);
+        await hubConnection.SendAsync("GetHistory", Game.Id);
     }
 
 
@@ -119,7 +135,7 @@
     {
         if (hubConnection is not null)
         {
-            await hubConnection.SendAsync("MakeMove",Game.Id,move);
+            await hubConnection.SendAsync("MakeMove", Game.Id, move);
         }
     }
 
@@ -199,9 +215,9 @@
         {
             return;
         }
-        if(Game.Move(movingPiceX, movingPiceY, toX, toY))
+        if (Game.Move(movingPiceX, movingPiceY, toX, toY))
         {
-            await SendMove(new HistoryMove(movingPiceX,movingPiceY,toX,toY));
+            await SendMove(new HistoryMove(movingPiceX, movingPiceY, toX, toY));
         }
 
         ClearHighlightTile();
