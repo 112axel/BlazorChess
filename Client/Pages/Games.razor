@@ -5,20 +5,20 @@
 
 
 <style>
-    ul.scrollmenu{
-        overflow:auto;
-        white-space:nowrap;
+    ul.scrollmenu {
+        overflow: auto;
+        white-space: nowrap;
     }
-    ul.scrollmenu li{
-        display:inline-block;
 
+    ul.scrollmenu li {
+        display: inline-block;
     }
 </style>
 
 <h3>Games</h3>
 
 <ul class="scrollmenu">
-    @foreach(var game in GameList)
+    @foreach (var game in GameList)
     {
         <li>
             <button onclick="@(()=>SelectGame(game))">testing</button>
@@ -26,7 +26,7 @@
     }
 </ul>
 
-@if(SelectedGame != null)
+@if (SelectedGame != null)
 {
     <BoardComp Game="@SelectedGame"></BoardComp>
 }
@@ -52,12 +52,12 @@
         .Build();
 
 
-        hubConnection.On<Game>("newGame",(newGame) =>
+        hubConnection.On<Game>("newGame", (newGame) =>
         {
             GameList.Add(newGame);
             InvokeAsync(StateHasChanged);
         });
-        hubConnection.On<List<Game>>("gameList",(list) =>
+        hubConnection.On<List<Game>>("gameList", (list) =>
         {
             GameList = list;
             InvokeAsync(StateHasChanged);
@@ -79,24 +79,16 @@
 
     private async void GetGames()
     {
-        if(hubConnection is not null)
+        if (hubConnection is not null)
         {
-            if(hubConnection.State == HubConnectionState.Disconnected)
-            {
-                await hubConnection.StartAsync();
-            }
             await hubConnection.SendAsync("GetGameList");
         }
     }
 
     private async void CreateNewGame()
     {
-        if(hubConnection is not null)
+        if (hubConnection is not null)
         {
-            if(hubConnection.State == HubConnectionState.Disconnected)
-            {
-                await hubConnection.StartAsync();
-            }
             await hubConnection.SendAsync("CreateNewGame");
         }
     }
