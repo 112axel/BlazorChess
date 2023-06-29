@@ -8,8 +8,11 @@ namespace BlazorChess.Shared.Models
         [NotMapped]
         public Board GameBoard { get; set; }
         public bool IsBlackTurn { get; set; }
+        public virtual List<HistoryMove> MovesMade { get; set; } = new List<HistoryMove>();
+        [NotMapped]
+        public int MoveToShow { get; set; }
 
-        public virtual List<HistoryMove> MovesMade { get; set; }
+        public event Action OnChange;
 
         public Game()
         {
@@ -20,6 +23,7 @@ namespace BlazorChess.Shared.Models
         {
             GameBoard = new Board();
             IsBlackTurn = false;
+            MoveToShow = -1;
         }
 
         public bool Move(int fromX, int fromY, int toX, int toY)
@@ -44,6 +48,8 @@ namespace BlazorChess.Shared.Models
         {
             return Move(move.FromX, move.FromY, move.ToX, move.ToY);
         }
+
+        public void NotifyStateChanged() => OnChange?.Invoke();
 
 
 

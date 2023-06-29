@@ -1,4 +1,4 @@
-﻿@page "/chess"
+﻿@page "/"
 @using BlazorChess.Shared.Models;
 @using Microsoft.AspNetCore.SignalR.Client;
 @inject NavigationManager Navigation
@@ -28,7 +28,7 @@
 
 @if (SelectedGame != null)
 {
-    <BoardComp Game="@SelectedGame"></BoardComp>
+    <GameComp Game="@SelectedGame"></GameComp>
 }
 
 <button onclick="@CreateNewGame">create new game</button>

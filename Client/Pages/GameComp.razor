@@ -1,0 +1,27 @@
+﻿@using BlazorChess.Shared.Models;
+
+@implements IDisposable
+<h3>GameComp</h3>
+
+
+<BoardComp Game="Game"></BoardComp>
+<HistoryComp Game="Game"></HistoryComp>
+
+
+
+@code {
+
+    [Parameter]
+    public Game Game { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Game.OnChange += StateHasChanged;
+    }
+
+    public void Dispose()
+    {
+        Game.OnChange -= StateHasChanged;
+
+    }
+}

@@ -69,7 +69,6 @@
     [Parameter]
     public Game Game { get; set; }
 
-
     private HubConnection? hubConnection;
 
     private static double sizeMultiply { get; set; }
@@ -103,12 +102,16 @@
 
         hubConnection.On<List<HistoryMove>>("fullLoad", (moves) =>
         {
-            Game.SetBaseState();
+            Game.MovesMade = moves;
+            Game.NotifyStateChanged();
+            SetGameStateToTurn(-1);
 
-            foreach (var move in moves)
-            {
-                Game.Move(move);
-            }
+            //Game.SetBaseState();
+
+            //foreach (var move in moves)
+            //{
+            //    Game.Move(move);
+            //}
             ClearHighlightTile();
             InvokeAsync(StateHasChanged);
         });
@@ -121,6 +124,8 @@
 
         await hubConnection.StartAsync();
         await hubConnection.SendAsync("GetHistory", Game.Id);
+
+        Game.OnChange += () => { SetGameStateToTurn(Game.MoveToShow); };
     }
 
 
@@ -133,7 +138,21 @@
         }
     }
 
+    private void SetGameStateToTurn(int turn)
+    {
+        Game.SetBaseState();
 
+        List<HistoryMove> movesToMake = Game.MovesMade;
+        if(turn > -1)
+        {
+            movesToMake = Game.MovesMade.Take(turn).ToList();
+        }
+
+        foreach(var move in movesToMake)
+        {
+            Game.Move(move);
+        }
+    }
 
 
     private void HandleClick(int x, int y)

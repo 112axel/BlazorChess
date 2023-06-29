@@ -1,0 +1,23 @@
+﻿@using BlazorChess.Shared.Models;
+<h3>HistoryComp</h3>
+
+<ul>
+    @for (int i = 0; i < Game.MovesMade.Count(); i++)
+    {
+        var i2 = i;
+        <li>
+            <button onclick="@(()=>{Game.MoveToShow = i2; Game.NotifyStateChanged();})">@i</button>
+        </li>
+    }
+</ul>
+
+
+
+
+@code {
+    [Parameter]
+    public Game Game { get; set; }
+
+
+
+}
