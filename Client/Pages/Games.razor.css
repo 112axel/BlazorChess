@@ -1,0 +1,8 @@
+﻿ul.scrollmenu {
+    overflow: auto;
+    white-space: nowrap;
+}
+
+ul.scrollmenu li {
+    display: inline-block;
+}

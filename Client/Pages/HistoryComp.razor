@@ -6,7 +6,8 @@
     {
         var i2 = i;
         <li>
-            <button onclick="@(()=>{Game.MoveToShow = i2; Game.NotifyStateChanged();})">@i</button>
+            <p></p>
+            <button onclick="@(()=>{Game.MoveToShow = i2; Game.NotifyStateChanged();})">Show turn: @i</button>
         </li>
     }
 </ul>

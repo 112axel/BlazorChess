@@ -1,0 +1,15 @@
+﻿    svg{
+        border:solid black 2px;
+    }
+
+    .color1 {
+        fill: white;
+    }
+
+    .color2 {
+        fill: black;
+    }
+
+    .color3{
+        fill: red;
+    }
