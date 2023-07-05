@@ -1,1 +1,16 @@
-﻿
+﻿main{
+    grid-area:board;
+}
+aside{
+    grid-area:history;
+    overflow-y:auto;
+    
+}
+
+.grid{
+    display:grid;
+    grid-template:"board history"/70fr 30fr;
+    height:90vh;
+
+}
+

@@ -1,6 +1,7 @@
 ﻿@page "/"
 @using BlazorChess.Shared.Models;
 @using Microsoft.AspNetCore.SignalR.Client;
+@using Microsoft.Extensions.Logging.Console;
 @inject NavigationManager Navigation
 
 
@@ -11,19 +12,19 @@
     @foreach (var game in GameList)
     {
         <li>
-            <button onclick="@(()=>SelectGame(game))">testing</button>
+            <button onclick="@(()=>SelectGame(game))">Game: @game.Id</button>
         </li>
     }
 </ul>
 
+<button onclick="@CreateNewGame">create new game</button>
+<button onclick="@GetGames">get new game</button>
+<button onclick="@test">update</button>
 @if (SelectedGame != null)
 {
     <GameComp Game="@SelectedGame"></GameComp>
 }
 
-<button onclick="@CreateNewGame">create new game</button>
-<button onclick="@GetGames">get new game</button>
-<button onclick="@test">update</button>
 
 
 @code {
@@ -71,7 +72,7 @@
     {
         if (hubConnection is not null)
         {
-            await hubConnection.SendAsync("GetGameList");
+            await hubConnection.InvokeAsync("GetGameList");
         }
     }
 

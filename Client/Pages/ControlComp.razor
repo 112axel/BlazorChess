@@ -1,0 +1,32 @@
+﻿@using BlazorChess.Shared.Models;
+<div>
+    <button onclick="@(()=>SetGameStateToShow(0))">First move</button>
+    <button 
+        disabled=@(Game.MoveToShow == 0)
+        onclick="@(()=>SetGameStateToShow(Game.MoveToShow-1))">
+        reverse 1 move
+    </button>
+    <button
+        disabled=@(Game.MoveToShow >= Game.MovesMade.Count())
+        onclick="@(()=>SetGameStateToShow(Game.MoveToShow+1))">
+        Advance 1 move
+    </button>
+    <button onclick="@(()=>SetGameStateToShow(Game.MovesMade.Count()))">Last move</button>
+    <button onclick="@FlippBoard">Flipp board</button>
+</div>
+
+@code {
+    [Parameter]
+    public Game Game { get; set; }
+
+    private void SetGameStateToShow(int turnToShow)
+    {
+        Game.MoveToShow = turnToShow;
+        Game.NotifyStateChanged();
+    }
+    private void FlippBoard()
+    {
+        Game.IsFlipped = !Game.IsFlipped;
+        Game.NotifyStateChanged();
+    }
+}

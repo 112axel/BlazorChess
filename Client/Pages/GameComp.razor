@@ -1,11 +1,16 @@
 ﻿@using BlazorChess.Shared.Models;
 
 @implements IDisposable
-<h3>GameComp</h3>
+<div class="grid">
+    <main>
 
-
-<BoardComp Game="Game"></BoardComp>
-<HistoryComp Game="Game"></HistoryComp>
+        <BoardComp Game="Game"></BoardComp>
+    </main>
+    <aside>
+        <HistoryComp Game="Game"></HistoryComp>
+    </aside>
+    <ControlComp Game="Game"></ControlComp>
+</div>
 
 
 

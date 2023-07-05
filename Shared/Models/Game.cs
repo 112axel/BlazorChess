@@ -11,6 +11,8 @@ namespace BlazorChess.Shared.Models
         public virtual List<HistoryMove> MovesMade { get; set; } = new List<HistoryMove>();
         [NotMapped]
         public int MoveToShow { get; set; }
+        [NotMapped]
+        public bool IsFlipped { get; set; } = true;
 
         public event Action OnChange;
 
@@ -23,7 +25,7 @@ namespace BlazorChess.Shared.Models
         {
             GameBoard = new Board();
             IsBlackTurn = false;
-            MoveToShow = -1;
+            
         }
 
         public bool Move(int fromX, int fromY, int toX, int toY)
