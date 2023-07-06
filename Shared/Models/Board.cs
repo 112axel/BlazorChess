@@ -7,20 +7,6 @@ namespace BlazorChess.Shared.Models
         private static readonly int XSize = 8;
         private static readonly int YSize = 8;
         public Tile[,] Tiles = new Tile[XSize, YSize];
-        public List<Piece> WhitePices { get; set; } = new List<Piece>();
-        public List<Piece> BlackPices { get; set; } = new List<Piece>();
-
-        private void AddToPiceToList(Piece piece)
-        {
-            if (piece.IsBlack)
-            {
-                BlackPices.Add(piece);
-            }
-            else
-            {
-                WhitePices.Add(piece);
-            }
-        }
 
         public Board()
         {
@@ -34,34 +20,17 @@ namespace BlazorChess.Shared.Models
             for (int i = 0; i < 2; i++)
             {
                 Tiles[0, 0 + 7 * i].OccupyingPrice = new Rook(i == 0);
-
                 Tiles[1, 0 + 7 * i].OccupyingPrice = new Knight(i == 0);
-
                 Tiles[2, 0 + 7 * i].OccupyingPrice = new Bishop(i == 0);
-
                 Tiles[3, 0 + 7 * i].OccupyingPrice = new Queen(i == 0);
-
                 Tiles[4, 0 + 7 * i].OccupyingPrice = new King(i == 0);
-
                 Tiles[5, 0 + 7 * i].OccupyingPrice = new Bishop(i == 0);
-
                 Tiles[6, 0 + 7 * i].OccupyingPrice = new Knight(i == 0);
-
                 Tiles[7, 0 + 7 * i].OccupyingPrice = new Rook(i == 0);
 
                 for (int j = 0; j < 8; j++)
                 {
                     Tiles[j, 1 + 5 * i].OccupyingPrice = new Pawn(i == 0);
-                }
-            }
-            for (int x = 0; x < XSize; x++)
-            {
-                for (int y = 0; y < YSize; y++)
-                {
-                    if(Tiles[x, y].OccupyingPrice != null)
-                    {
-                        AddToPiceToList(Tiles[x, y].OccupyingPrice);
-                    }
                 }
             }
 
@@ -97,7 +66,6 @@ namespace BlazorChess.Shared.Models
             Tiles[fromX, fromY].OccupyingPrice = null;
             return true;
         }
-
 
 
     }
