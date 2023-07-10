@@ -4,15 +4,11 @@
 @using Microsoft.Extensions.Logging.Console;
 @inject NavigationManager Navigation
 
-
-
-<h3>Games</h3>
-
 <ul class="scrollmenu">
     @foreach (var game in GameList)
     {
         <li>
-            <button onclick="@(()=>SelectGame(game))">Game: @game.Id</button>
+            <button disabled="@(game == SelectedGame)" onclick="@(()=>SelectGame(game))">Game: @game.Id</button>
         </li>
     }
 </ul>
@@ -20,12 +16,11 @@
 <button onclick="@CreateNewGame">create new game</button>
 <button onclick="@GetGames">get new game</button>
 <button onclick="@test">update</button>
+
 @if (SelectedGame != null)
 {
     <GameComp Game="@SelectedGame"></GameComp>
 }
-
-
 
 @code {
 
@@ -72,7 +67,7 @@
     {
         if (hubConnection is not null)
         {
-            await hubConnection.InvokeAsync("GetGameList");
+            await hubConnection.SendAsync("GetGameList");
         }
     }
 

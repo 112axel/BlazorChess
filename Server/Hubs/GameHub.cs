@@ -1,6 +1,8 @@
-﻿﻿using BlazorChess.Server.Data;
+﻿using BlazorChess.Server.Data;
 using BlazorChess.Shared.Models;
 using Microsoft.AspNetCore.SignalR;
+using Microsoft.EntityFrameworkCore;
+
 namespace BlazorChess.Hubs
 {
     public class GameHub:Hub

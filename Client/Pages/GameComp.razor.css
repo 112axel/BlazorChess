@@ -4,6 +4,7 @@
 aside{
     grid-area:history;
     overflow-y:auto;
+    background-color:gray;
     
 }
 

@@ -21,6 +21,11 @@ namespace BlazorChess.Shared.Models
             SetBaseState();
         }
 
+        public void SetMoveToShowToCurrent()
+        {
+            MoveToShow = MovesMade.Count;
+        }
+
         public void SetBaseState()
         {
             GameBoard = new Board();

@@ -19,10 +19,19 @@
     [Parameter]
     public Game Game { get; set; }
 
-    protected override void OnInitialized()
+    private Game OldGame{ get; set; }
+
+    protected override void OnParametersSet()
     {
+        if(OldGame is not null)
+        {
+            OldGame.OnChange -= StateHasChanged;
+        }
         Game.OnChange += StateHasChanged;
+        OldGame = Game;
+        Game.SetMoveToShowToCurrent();
     }
+
 
     public void Dispose()
     {

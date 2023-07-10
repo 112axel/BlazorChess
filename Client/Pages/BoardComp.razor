@@ -5,7 +5,7 @@
 
 
 
-<svg viewBox="0 0 100 100">
+<svg width="90vh" height="90vh" viewBox="0 0 100 100">
     @for (int y = 0; y < boardY; y++)
     {
         @for (int x = 0; x < boardX; x++)
@@ -36,7 +36,6 @@
     }
 </svg>
 
-
 @code {
     [Parameter]
     public Game Game { get; set; }
@@ -54,6 +53,16 @@
     private bool[,] highLightTile = new bool[8, 8];
 
 
+    protected async override void OnParametersSet()
+    {
+        boardX = Game.GameBoard.Tiles.GetLength(0);
+        boardY = Game.GameBoard.Tiles.GetLength(1);
+
+        sizeMultiply = 100.0 / boardX;
+        Game.OnChange += () => { SetGameStateToTurn(Game.MoveToShow); };
+        await hubConnection.SendAsync("GetHistory", Game.Id);
+    }
+
     protected override async Task OnInitializedAsync()
     {
         hubConnection = new HubConnectionBuilder()
@@ -61,21 +70,13 @@
         .WithAutomaticReconnect()
         .Build();
 
-        boardX = Game.GameBoard.Tiles.GetLength(0);
-        boardY = Game.GameBoard.Tiles.GetLength(1);
 
-        sizeMultiply = 100.0 / boardX;
 
         hubConnection.On<List<HistoryMove>>("fullLoad", (moves) =>
         {
             Game.MovesMade = moves;
-
-            Game.MoveToShow = moves.Count();
-
             Game.NotifyStateChanged();
-
-
-            SetGameStateToTurn();
+            SetGameStateToTurn(-1);
 
             //Game.SetBaseState();
 
@@ -94,9 +95,7 @@
         });
 
         await hubConnection.StartAsync();
-        await hubConnection.SendAsync("GetHistory", Game.Id);
 
-        Game.OnChange += () => { SetGameStateToTurn(); };
     }
 
 
@@ -109,11 +108,15 @@
         }
     }
 
-    private void SetGameStateToTurn()
+    private void SetGameStateToTurn(int turn)
     {
         Game.SetBaseState();
 
-        var movesToMake = Game.MovesMade.Take(Game.MoveToShow).ToList();
+        List<HistoryMove> movesToMake = Game.MovesMade;
+        if(turn > -1)
+        {
+            movesToMake = Game.MovesMade.Take(turn).ToList();
+        }
 
         foreach(var move in movesToMake)
         {
@@ -125,11 +128,6 @@
     private void HandleClick(int x, int y)
     {
         var squareClicked = Game.GameBoard.Tiles[x, y];
-        if (Game.MoveToShow != Game.MovesMade.Count())
-        {
-            return;
-        }
-
 
         if (squareClicked.OccupyingPrice is not null)
         {
@@ -146,9 +144,6 @@
         {
             Move(x, y);
         }
-
-
-
     }
 
     private void ShowAllowedMoves(int x, int y)
@@ -178,6 +173,7 @@
                 highLightTile[i, j] = false;
             }
         }
+
     }
 
     private string TileClass(int x, int y)
@@ -210,3 +206,4 @@
         this.StateHasChanged();
     }
 }
+
