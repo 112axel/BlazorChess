@@ -75,7 +75,7 @@
         hubConnection.On<List<HistoryMove>>("fullLoad", (moves) =>
         {
             Game.MovesMade = moves;
-            Game.NotifyStateChanged();
+            //Game.NotifyStateChanged();
             SetGameStateToTurn(-1);
 
             //Game.SetBaseState();
@@ -95,7 +95,6 @@
         });
 
         await hubConnection.StartAsync();
-
     }
 
 

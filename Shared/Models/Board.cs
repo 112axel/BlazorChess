@@ -8,6 +8,19 @@ namespace BlazorChess.Shared.Models
         private static readonly int YSize = 8;
         public Tile[,] Tiles = new Tile[XSize, YSize];
 
+        private List<Piece> PiecesMoved = new List<Piece> { };
+
+        public bool HasMoved(Piece pieceToFind)
+        {
+            if (PiecesMoved.Contains(pieceToFind))
+            {
+                return true;
+            }
+            PiecesMoved.Add(pieceToFind);
+            return false;
+        }
+
+
         public Board()
         {
             for (int x = 0; x < XSize; x++)

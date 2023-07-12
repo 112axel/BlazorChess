@@ -20,19 +20,30 @@ namespace BlazorChess.Shared.Models.Pieces
         private List<MoveOption> PawnMove(Board board, int x, int y)
         {
             List<MoveOption> outputMoves = new List<MoveOption>();
-            int distance = 1;
             int directionMod = ForwardMultiplier(board, x, y);
 
-            int moveX = x;
-            int moveY = y + distance * directionMod;
+            int iterations = (board.HasMoved(this) ? 1 : 2);
 
-            if (board.IsValidSquare(moveX, moveY))
+            for(int distance = 1; distance<=iterations; distance++)
             {
+
+                int moveX = x;
+                int moveY = y + distance * directionMod;
+
+                if (!board.IsValidSquare(moveX, moveY))
+                {
+                    break;
+                }
+                if (board.Tiles[moveX, moveY].OccupyingPrice == null)
+                {
+                    outputMoves.Add(new MoveOption(moveX, moveY));
+                }
+                else
+                {
+                    break;
+                }
             }
-            if (board.Tiles[moveX, moveY].OccupyingPrice == null)
-            {
-                outputMoves.Add(new MoveOption(moveX, moveY));
-            }
+
             return outputMoves;
         }
 
