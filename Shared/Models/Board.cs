@@ -16,8 +16,15 @@ namespace BlazorChess.Shared.Models
             {
                 return true;
             }
-            PiecesMoved.Add(pieceToFind);
             return false;
+        }
+
+        public void AddMoved(Piece pieceToAdd)
+        {
+            if (!PiecesMoved.Contains(pieceToAdd))
+            {
+                PiecesMoved.Add(pieceToAdd);
+            }
         }
 
 
@@ -69,11 +76,12 @@ namespace BlazorChess.Shared.Models
             {
                 return false;
             }
-            if (!toMove.AllowedMoves(this, fromX, fromY).Any(z => z.YDestination == toY && z.XDestination == toX))
+            var allowedMoves = toMove.AllowedMoves(this, fromX, fromY); 
+            if (!allowedMoves.Any(z => z.YDestination == toY && z.XDestination == toX))
             {
                 return false;
             }
-
+            AddMoved(toMove);//TODO try to replace
             Tiles[toX, toY].OccupyingPrice = toMove;
 
             Tiles[fromX, fromY].OccupyingPrice = null;
