@@ -3,7 +3,7 @@
 @using Microsoft.AspNetCore.SignalR.Client
 @inject NavigationManager Navigation
 
-
+<p>@(Game.IsBlackTurn?"Blacks":"Whites") turn</p>
 
 <svg width="90vh" height="90vh" viewBox="0 0 100 100">
     @for (int y = 0; y < boardY; y++)
@@ -76,7 +76,6 @@
         {
             Game.MovesMade = moves;
             //Game.NotifyStateChanged();
-            SetGameStateToTurn(-1);
 
             //Game.SetBaseState();
 
@@ -88,10 +87,13 @@
             InvokeAsync(StateHasChanged);
         });
 
-        hubConnection.On<HistoryMove>("Move", (move) =>
+        hubConnection.On<HistoryMove>("move", (move) =>
         {
             Game.Move(move);
-            InvokeAsync(StateHasChanged);
+            Game.MovesMade.Add(move);
+
+            Game.SetMoveToShowToCurrent();
+            Game.NotifyStateChanged();
         });
 
         await hubConnection.StartAsync();

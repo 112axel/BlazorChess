@@ -76,8 +76,7 @@ namespace BlazorChess.Shared.Models
             {
                 return false;
             }
-            var allowedMoves = toMove.AllowedMoves(this, fromX, fromY); 
-            if (!allowedMoves.Any(z => z.YDestination == toY && z.XDestination == toX))
+            if (!toMove.AllowedMoves(this, fromX, fromY).Any(z => z.YDestination == toY && z.XDestination == toX))
             {
                 return false;
             }
