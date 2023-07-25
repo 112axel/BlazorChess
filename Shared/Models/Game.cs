@@ -15,6 +15,7 @@ namespace BlazorChess.Shared.Models
         public bool IsFlipped { get; set; } = true;
 
         public event Action OnChange;
+        public event Action OnSmallChange;
 
         public Game()
         {
@@ -56,7 +57,28 @@ namespace BlazorChess.Shared.Models
             return Move(move.FromX, move.FromY, move.ToX, move.ToY);
         }
 
+
+        public void SetGameStateToTurn(int turn)
+        {
+            SetBaseState();
+
+
+            List<HistoryMove> movesToMake = MovesMade;
+            if (turn > -1)
+            {
+                movesToMake = MovesMade.Take(turn).ToList();
+            }
+
+            foreach (var move in movesToMake)
+            {
+                Move(move);
+            }
+
+            MoveToShow = turn;
+        }
+
         public void NotifyStateChanged() => OnChange?.Invoke();
+        public void NotifySmallChange() => OnSmallChange?.Invoke();
 
 
 

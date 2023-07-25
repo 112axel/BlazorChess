@@ -19,10 +19,16 @@
     [Parameter]
     public Game Game { get; set; }
 
+    protected override void OnParametersSet()
+    {
+        Game.OnSmallChange += StateHasChanged;
+    }
+
     private void SetGameStateToShow(int turnToShow)
     {
         Game.MoveToShow = turnToShow;
-        Game.NotifyStateChanged();
+        Game.SetGameStateToTurn(turnToShow);
+        Game.NotifySmallChange();
     }
     private void FlippBoard()
     {

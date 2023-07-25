@@ -59,7 +59,10 @@
         boardY = Game.GameBoard.Tiles.GetLength(1);
 
         sizeMultiply = 100.0 / boardX;
-        Game.OnChange += () => { SetGameStateToTurn(Game.MoveToShow); };
+        Game.OnChange += () => { Game.SetGameStateToTurn(Game.MoveToShow); };
+
+        Game.OnSmallChange += StateHasChanged;
+
         await hubConnection.SendAsync("GetHistory", Game.Id);
     }
 
@@ -83,17 +86,21 @@
             //{
             //    Game.Move(move);
             //}
+            Game.SetMoveToShowToCurrent();
+            Game.SetGameStateToTurn(Game.MoveToShow);
+
             ClearHighlightTile();
-            InvokeAsync(StateHasChanged);
+            Game.NotifySmallChange();
         });
 
         hubConnection.On<HistoryMove>("move", (move) =>
         {
+            //TODO reinsert
             Game.Move(move);
             Game.MovesMade.Add(move);
 
             Game.SetMoveToShowToCurrent();
-            Game.NotifyStateChanged();
+            Game.NotifySmallChange();
         });
 
         await hubConnection.StartAsync();
@@ -109,26 +116,15 @@
         }
     }
 
-    private void SetGameStateToTurn(int turn)
-    {
-        Game.SetBaseState();
-
-        List<HistoryMove> movesToMake = Game.MovesMade;
-        if(turn > -1)
-        {
-            movesToMake = Game.MovesMade.Take(turn).ToList();
-        }
-
-        foreach(var move in movesToMake)
-        {
-            Game.Move(move);
-        }
-    }
 
 
     private void HandleClick(int x, int y)
     {
         var squareClicked = Game.GameBoard.Tiles[x, y];
+        if(Game.MovesMade.Count != Game.MoveToShow)
+        {
+            return;
+        }
 
         if (squareClicked.OccupyingPrice is not null)
         {

@@ -34,7 +34,8 @@ namespace BlazorChess.Hubs
             //TODO not resend all data
             var historyMoves = dbContext.Games.Include(x=>x.MovesMade).First(x=>x.Id == id).MovesMade.ToList();
             //await Clients.Group(id.ToString()).SendAsync("move", move);
-            await Clients.Group(id.ToString()).SendAsync("move", move);
+            //await Clients.Group(id.ToString()).SendAsync("move", move);
+            await Clients.Caller.SendAsync("fullLoad", historyMoves);
         }
     }
 }
