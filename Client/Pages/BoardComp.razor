@@ -194,12 +194,15 @@
         }
         if (Game.Move(movingPiceX, movingPiceY, toX, toY))
         {
-            await SendMove(new HistoryMove(movingPiceX, movingPiceY, toX, toY));
+            var historyMove = new HistoryMove(movingPiceX, movingPiceY, toX, toY);
+            await SendMove(historyMove);
+            Game.MovesMade.Add(historyMove);
+            Game.SetMoveToShowToCurrent();
         }
 
         ClearHighlightTile();
 
-        this.StateHasChanged();
+        Game.NotifySmallChange();
     }
 }
 

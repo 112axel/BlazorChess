@@ -8,9 +8,20 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 builder.Services.AddRazorPages();
 
+string enviorment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+
+Console.WriteLine(enviorment);
+
+var configuration = new ConfigurationBuilder()
+    .SetBasePath(Directory.GetCurrentDirectory())
+    .AddJsonFile($"appsettings.{enviorment}.json", optional: true)
+    .Build();
+
+string conectionString = configuration.GetConnectionString("MyDbContext");
+
 builder.Services.AddDbContext<ChessContext>(options =>
 {
-    options.UseNpgsql("Host=localhost;Database=ChessDb; Username=postgres; Password=1234;");
+    options.UseNpgsql(conectionString);
 });
 
 builder.Services.AddSignalR();
@@ -29,7 +40,16 @@ if (app.Environment.IsDevelopment())
 else
 {
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    app.UseHsts();
+    //app.UseHsts();
+}
+
+using (var scope = app.Services.CreateScope())
+{
+    var dataContext = scope.ServiceProvider.GetRequiredService<ChessContext>();
+    if (dataContext.Database.GetPendingMigrations().Any())
+    {
+        dataContext.Database.Migrate();
+    }
 }
 
 app.UseHttpsRedirection();

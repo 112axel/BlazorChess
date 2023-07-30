@@ -24,18 +24,20 @@ namespace BlazorChess.Hubs
             Groups.AddToGroupAsync(Context.ConnectionId, id.ToString());
             //TODO remove frist?
             var historyMoves = dbContext.Games.Include(x=>x.MovesMade).First(x=>x.Id == id).MovesMade.ToList();
-     
             await Clients.Caller.SendAsync("fullLoad", historyMoves);
         }
         public async Task MakeMove(int id,HistoryMove move)
         {
-            dbContext.Games.Include(x => x.MovesMade).First(x => x.Id == id).MovesMade.Add(move);
+            var game = dbContext.Games.Include(x=>x.MovesMade).First(x=> x.Id == id);
+
+            game.MovesMade.Add(move);
+
             dbContext.SaveChanges();
             //TODO not resend all data
-            var historyMoves = dbContext.Games.Include(x=>x.MovesMade).First(x=>x.Id == id).MovesMade.ToList();
-            //await Clients.Group(id.ToString()).SendAsync("move", move);
-            //await Clients.Group(id.ToString()).SendAsync("move", move);
-            await Clients.Caller.SendAsync("fullLoad", historyMoves);
+            //var historyMoves = dbContext.Games.Include(x=>x.MovesMade).First(x=>x.Id == id).MovesMade.ToList();
+            //await Clients.Group(id.ToString()).SendAsync("fullload", game.MovesMade);
+            await Clients.GroupExcept(id.ToString(),Context.ConnectionId).SendAsync("move", move);
+            //await Clients.Caller.SendAsync("fullLoad", historyMoves);
         }
     }
 }

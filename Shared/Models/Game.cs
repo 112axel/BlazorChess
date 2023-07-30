@@ -12,7 +12,7 @@ namespace BlazorChess.Shared.Models
         [NotMapped]
         public int MoveToShow { get; set; }
         [NotMapped]
-        public bool IsFlipped { get; set; } = true;
+        public bool IsFlipped { get; set; }
 
         public event Action OnChange;
         public event Action OnSmallChange;

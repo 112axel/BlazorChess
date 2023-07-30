@@ -1,0 +1,44 @@
+version: '3'
+
+networks:
+  ChessNet:
+    driver: bridge
+
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    container_name: ChessDb
+    environment:
+        POSTGRES_PASSWORD: 1234
+        POSTGRES_USER: test
+    ports:
+     - '5432:5432'
+
+    networks:
+        - ChessNet
+
+
+  server:
+    container_name: ChessServer
+    build:
+        context: .
+        dockerfile: Server/Dockerfile
+    ports:
+        - '80:80'
+
+    networks:
+        - ChessNet
+
+    depends_on:
+        - db
+
+    environment:
+        ASPNETCORE_ENVIRONMENT: Production
+
+
+volumes:
+  db:
+    driver: local    

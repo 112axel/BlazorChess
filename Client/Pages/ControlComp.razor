@@ -26,7 +26,6 @@
 
     private void SetGameStateToShow(int turnToShow)
     {
-        Game.MoveToShow = turnToShow;
         Game.SetGameStateToTurn(turnToShow);
         Game.NotifySmallChange();
     }
