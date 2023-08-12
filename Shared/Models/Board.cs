@@ -81,6 +81,17 @@ namespace BlazorChess.Shared.Models
                 return false;
             }
             AddMoved(toMove);//TODO try to replace
+
+            //premotion code
+            if(toMove is Pawn)
+            {
+                int promotionY = toMove.IsBlack ? 7:0;
+                if(toY == promotionY)
+                {
+                    toMove = new Queen(toMove.IsBlack);
+                }
+            }
+
             Tiles[toX, toY].OccupyingPrice = toMove;
 
             Tiles[fromX, fromY].OccupyingPrice = null;

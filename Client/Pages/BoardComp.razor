@@ -1,6 +1,7 @@
 ﻿@using BlazorChess.Shared.Models
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.SignalR.Client
+@using BlazorChess.Client.Pages;
 @inject NavigationManager Navigation
 
 <p>@(Game.IsBlackTurn?"Blacks":"Whites") turn</p>
@@ -35,6 +36,8 @@
         }
     }
 </svg>
+
+@*<PromotionComp></PromotionComp>*@
 
 @code {
     [Parameter]
