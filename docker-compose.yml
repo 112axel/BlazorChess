@@ -15,7 +15,10 @@ services:
         POSTGRES_PASSWORD: 1234
         POSTGRES_USER: test
     ports:
-     - '4002:5432'
+        - '4002:5432'
+
+    volumes:
+        - ./data:/var/lib/postgresql/data
 
     networks:
         - ChessNet
@@ -34,10 +37,16 @@ services:
 
     depends_on:
         - db
+    deploy:
+        restart_policy:
+          condition: on-failure
+          delay: 5s
+          max_attempts: 3
+          window: 120s
+
 
     environment:
         ASPNETCORE_ENVIRONMENT: Production
-
 
 volumes:
   db:
