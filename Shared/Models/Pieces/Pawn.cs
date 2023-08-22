@@ -34,7 +34,7 @@ namespace BlazorChess.Shared.Models.Pieces
                 {
                     break;
                 }
-                if (board.Tiles[moveX, moveY].OccupyingPrice == null)
+                if (board.Tiles[moveX, moveY].OccupyingPiece == null)
                 {
                     outputMoves.Add(new MoveOption(moveX, moveY));
                 }
@@ -63,11 +63,11 @@ namespace BlazorChess.Shared.Models.Pieces
                 {
                     continue;
                 }
-                if (board.Tiles[moveX, moveY].OccupyingPrice == null)
+                if (board.Tiles[moveX, moveY].OccupyingPiece == null)
                 {
                     continue;
                 }
-                if (board.Tiles[moveX, moveY].OccupyingPrice.IsBlack != IsBlack)
+                if (board.Tiles[moveX, moveY].OccupyingPiece.IsBlack != IsBlack)
                 {
                     outputMoves.Add(new MoveOption(moveX, moveY));
                 }
@@ -79,7 +79,7 @@ namespace BlazorChess.Shared.Models.Pieces
 
         private static int ForwardMultiplier(Board board, int x, int y)
         {
-            return board.Tiles[x, y].OccupyingPrice.IsBlack ? 1 : -1;
+            return board.Tiles[x, y].OccupyingPiece.IsBlack ? 1 : -1;
         }
     }
 }

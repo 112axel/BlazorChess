@@ -21,7 +21,7 @@ namespace BlazorChess.Hubs
         //TODO serverside check
         public async Task GetHistory(int id)
         {
-            Groups.AddToGroupAsync(Context.ConnectionId, id.ToString());
+            await Groups.AddToGroupAsync(Context.ConnectionId, id.ToString());
             //TODO remove frist?
             var historyMoves = dbContext.Games.Include(x=>x.MovesMade).First(x=>x.Id == id).MovesMade.ToList();
             await Clients.Caller.SendAsync("fullLoad", historyMoves);

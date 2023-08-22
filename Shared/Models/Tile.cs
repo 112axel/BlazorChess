@@ -4,6 +4,6 @@ namespace BlazorChess.Shared.Models
 {
     public class Tile
     {
-        public Piece? OccupyingPrice { get; set; }
+        public Piece? OccupyingPiece { get; set; }
     }
 }

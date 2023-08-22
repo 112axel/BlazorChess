@@ -26,16 +26,17 @@
                   class="@( new Func<string>(()=>{return TileClass(x,y);})() )"
                   onclick="@(()=> HandleClick(x2,y2))">
             </rect>
-            @if (Game.GameBoard.Tiles[x, y].OccupyingPrice != null)
+            @if (Game.GameBoard.Tiles[x, y].OccupyingPiece != null)
             {
                 <image x="@(flippedX*sizeMultiply)" y="@(flippedY*sizeMultiply)" width="@sizeMultiply" height="@sizeMultiply"
-                       href="@Game.GameBoard.Tiles[x,y].OccupyingPrice.AssetPath"
+                       href="@Game.GameBoard.Tiles[x,y].OccupyingPiece.AssetPath"
                        onclick="@(() => HandleClick(x2,y2))">
                 </image>
             }
         }
     }
 </svg>
+
 
 @*<PromotionComp></PromotionComp>*@
 
@@ -128,10 +129,13 @@
         {
             return;
         }
+        //TODO remove
+        //bool temp = Game.GameBoard.IsInCheck(true);
+        //bool temp2 = Game.GameBoard.IsInCheck(false);
 
-        if (squareClicked.OccupyingPrice is not null)
+        if (squareClicked.OccupyingPiece is not null)
         {
-            if (squareClicked.OccupyingPrice.IsBlack == Game.IsBlackTurn)
+            if (squareClicked.OccupyingPiece.IsBlack == Game.IsBlackTurn)
             {
                 ShowAllowedMoves(x, y);
             }
@@ -154,9 +158,12 @@
         movingPiceY = y;
 
 
-        foreach (var move in Game.GameBoard.Tiles[x, y].OccupyingPrice.AllowedMoves(Game.GameBoard, x, y))
+        foreach (var move in Game.GameBoard.Tiles[x, y].OccupyingPiece.AllowedMoves(Game.GameBoard, x, y))
         {
-            highLightTile[move.XDestination, move.YDestination] = true;
+            if(Game.GameBoard.NextMoveAllowed(x, y, move.XDestination, move.YDestination))
+            {
+                highLightTile[move.XDestination, move.YDestination] = true;
+            }
         }
         this.StateHasChanged();
     }
@@ -202,6 +209,8 @@
             Game.MovesMade.Add(historyMove);
             Game.SetMoveToShowToCurrent();
         }
+        var temp1 = Game.GameBoard.IsInCheck(true);
+        var temp2 = Game.GameBoard.IsInCheck(true);
 
         ClearHighlightTile();
 

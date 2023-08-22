@@ -38,11 +38,11 @@ namespace BlazorChess.Shared.Models.Pieces
                     {
                         break;
                     }
-                    if (board.Tiles[moveX, moveY].OccupyingPrice == null)
+                    if (board.Tiles[moveX, moveY].OccupyingPiece == null)
                     {
                         outputMoves.Add(new MoveOption(moveX, moveY));
                     }
-                    else if (board.Tiles[moveX, moveY].OccupyingPrice.IsBlack != IsBlack)
+                    else if (board.Tiles[moveX, moveY].OccupyingPiece.IsBlack != IsBlack)
                     {
                         outputMoves.Add(new MoveOption(moveX, moveY));
                         break;
@@ -72,11 +72,11 @@ namespace BlazorChess.Shared.Models.Pieces
                     {
                         break;
                     }
-                    if (board.Tiles[moveX, moveY].OccupyingPrice == null)
+                    if (board.Tiles[moveX, moveY].OccupyingPiece == null)
                     {
                         outputMoves.Add(new MoveOption(moveX, moveY));
                     }
-                    else if (board.Tiles[moveX, moveY].OccupyingPrice.IsBlack != IsBlack)
+                    else if (board.Tiles[moveX, moveY].OccupyingPiece.IsBlack != IsBlack)
                     {
                         outputMoves.Add(new MoveOption(moveX, moveY));
                         break;

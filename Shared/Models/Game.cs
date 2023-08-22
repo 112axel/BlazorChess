@@ -36,7 +36,12 @@ namespace BlazorChess.Shared.Models
 
         public bool Move(int fromX, int fromY, int toX, int toY)
         {
-            var toMove = GameBoard.Tiles[fromX, fromY].OccupyingPrice;
+            var toMove = GameBoard.Tiles[fromX, fromY].OccupyingPiece;
+
+            if(toMove == null)
+            {
+                return false;
+            }
 
             if (toMove.IsBlack != IsBlackTurn)
             {
