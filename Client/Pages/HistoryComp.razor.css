@@ -1,3 +1,8 @@
-﻿li{
-
+﻿ul{
+    overflow-y:auto;
+    background-color:gray;
+    height:100%;
+    list-style-type:none;
+    padding-left:10px;
+    margin:0;
 }

@@ -1,16 +1,18 @@
 ﻿main{
     grid-area:board;
+    height:0;
+    /*padding-bottom:20%;*/
 }
 aside{
     grid-area:history;
-    overflow-y:auto;
-    background-color:gray;
-    
+    height:inherit;
 }
 
 .grid{
     display:grid;
-    grid-template:"board history"/70fr 30fr;
+    grid-template:
+        "board history" 100%
+        /70fr 30fr;
     height:90vh;
 
 }

@@ -4,9 +4,8 @@
 @using BlazorChess.Client.Pages;
 @inject NavigationManager Navigation
 
-<p>@(Game.IsBlackTurn?"Blacks":"Whites") turn</p>
 
-<svg width="90vh" height="90vh" viewBox="0 0 100 100">
+<svg viewBox="0 0 100 100">
     @for (int y = 0; y < boardY; y++)
     {
         @for (int x = 0; x < boardX; x++)
