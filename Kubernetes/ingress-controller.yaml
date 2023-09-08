@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-service
+  annotations:
+    spec.ingressClassName: ngnix
+spec:
+  rules:
+    - host: testing.k8s.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: chess
+                port:
+                  number: 80

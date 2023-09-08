@@ -16,8 +16,15 @@ var configuration = new ConfigurationBuilder()
     .SetBasePath(Directory.GetCurrentDirectory())
     .AddJsonFile($"appsettings.{enviorment}.json", optional: true)
     .Build();
-
-string conectionString = configuration.GetConnectionString("MyDbContext");
+string conectionString = "";
+if(enviorment == "Development")
+{
+    conectionString = configuration.GetConnectionString("MyDbContext");
+}
+else
+{
+    conectionString = "host=postgres;port=5432;database=ChessDb;username=test;password=1234;Pooling=true;";
+}
 
 builder.Services.AddDbContext<ChessContext>(options =>
 {
