@@ -30,7 +30,7 @@ jobs:
         platforms: linux/amd64, linux/arm64
         push: true
         tags: 112axel/blazor-chess:latest
-        dockerfile: ./Server/Dockerfile
+        file: ./Server/Dockerfile
         
       #run: docker buildx build . --file ./Server/Dockerfile --tag 112axel/blazor-chess:latest --platform linux/amd64,linux/arm64 --push
 
