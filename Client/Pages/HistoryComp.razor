@@ -1,12 +1,17 @@
 ﻿@using BlazorChess.Shared.Models;
+@using BlazorChess.Shared.Models.Pieces;
 
 <ul>
     @for (int i = 0; i < Game.MovesMade.Count(); i++)
     {
         var i2 = i;
         <li>
-            <p>@Game.MovesMade[i].</p>
-            <button onclick="@(()=>{Game.SetGameStateToTurn(i2+1); Game.NotifySmallChange();})">Show turn: @(i+1)</button>
+            <img src="@(PieceMoved[i].AssetPath)" class = "piecePicture">
+            <div>
+                <p>From: @($"{Game.MovesMade[i].FromX},{Game.MovesMade[i].FromY}")</p>
+                <p>To: @($"{Game.MovesMade[i].ToX},{Game.MovesMade[i].ToY}")</p>
+                <button onclick="@(()=>{Game.SetGameStateToTurn(i2+1); Game.NotifySmallChange();})">Show turn: @(i + 1)</button>
+            </div>
         </li>
     }
 </ul>
@@ -17,9 +22,30 @@
 @code {
     [Parameter]
     public Game Game { get; set; }
+    public List<Piece> PieceMoved { get; set; }
+
+    protected override void OnInitialized()
+    {
+        SetPieceMoved();
+    }
 
     protected override void OnParametersSet()
     {
+        Game.OnSmallChange += SetPieceMoved;
         Game.OnSmallChange += StateHasChanged;
     }
+
+    public void SetPieceMoved()
+    {
+        var cloneGame = new Game();
+        PieceMoved = new List<Piece>();
+        foreach (var move in Game.MovesMade)
+        {
+            PieceMoved.Add(cloneGame.GameBoard.Tiles[move.FromX, move.FromY].OccupyingPiece);
+            cloneGame.Move(move);
+        }
+
+    }
+
+
 }

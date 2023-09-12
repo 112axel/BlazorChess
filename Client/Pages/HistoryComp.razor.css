@@ -1,8 +1,30 @@
-﻿ul{
-    overflow-y:auto;
-    background-color:gray;
-    height:100%;
-    list-style-type:none;
-    padding-left:10px;
-    margin:0;
+﻿ul {
+    overflow-y: auto;
+    background-color: gray;
+    height: 100%;
+    list-style-type: none;
+    padding-left: 10px;
+    margin: 0;
+}
+
+li {
+    display: grid;
+    grid-template: "a b"/ auto 1fr;
+    border-bottom: 2px solid black;
+    padding-bottom: 2px;
+}
+
+li div {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    align-items: flex-start;
+}
+
+p {
+    margin: 0;
+}
+
+.piecePicture {
+    height: 90px;
 }
