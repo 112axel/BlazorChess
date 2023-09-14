@@ -137,7 +137,7 @@ namespace BlazorChess.Shared.Models
             return true;
         }
 
-        public bool Move(int fromX, int fromY, int toX, int toY)
+        public bool Move(int fromX, int fromY, int toX, int toY, PromotionChoise promotionChoise)
         {
             var toMove = Tiles[fromX, fromY].OccupyingPiece;
             if (toMove == null)
@@ -164,7 +164,22 @@ namespace BlazorChess.Shared.Models
                 int promotionY = toMove.IsBlack ? 7:0;
                 if(toY == promotionY)
                 {
-                    toMove = new Queen(toMove.IsBlack);
+                    if(promotionChoise == PromotionChoise.Queen)
+                    {
+                        toMove = new Queen(toMove.IsBlack);
+                    }
+                    else if(promotionChoise == PromotionChoise.Rook)
+                    {
+                        toMove = new Rook(toMove.IsBlack);
+                    }
+                    else if(promotionChoise == PromotionChoise.Knight)
+                    {
+                        toMove = new Knight(toMove.IsBlack);
+                    }
+                    else if(promotionChoise == PromotionChoise.Bishop)
+                    {
+                        toMove = new Bishop(toMove.IsBlack);
+                    }
                 }
             }
             //Update pos of king

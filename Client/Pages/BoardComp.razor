@@ -35,6 +35,7 @@
         }
     }
 </svg>
+<PromotionComp @ref="PremotionPopup"></PromotionComp>
 
 
 @*<PromotionComp></PromotionComp>*@
@@ -54,6 +55,9 @@
     private int boardY { get; set; }
     //TODO add suport for more size
     private bool[,] highLightTile = new bool[8, 8];
+
+    private PromotionComp PremotionPopup { get; set; }
+
 
 
     protected async override void OnParametersSet()
@@ -201,15 +205,20 @@
         {
             return;
         }
-        if (Game.Move(movingPiceX, movingPiceY, toX, toY))
+
+        PromotionChoise promotionChoise = PromotionChoise.None;
+        if (Game.RequiresPremotion(movingPiceX, movingPiceY, toX, toY))
         {
-            var historyMove = new HistoryMove(movingPiceX, movingPiceY, toX, toY);
+            promotionChoise = await PremotionPopup.Start();
+        }
+
+        if (Game.Move(movingPiceX, movingPiceY, toX, toY,promotionChoise))
+        {
+            var historyMove = new HistoryMove(movingPiceX, movingPiceY, toX, toY,PromotionChoise.Queen);
             await SendMove(historyMove);
             Game.MovesMade.Add(historyMove);
             Game.SetMoveToShowToCurrent();
         }
-        var temp1 = Game.GameBoard.IsInCheck(true);
-        var temp2 = Game.GameBoard.IsInCheck(true);
 
         ClearHighlightTile();
 

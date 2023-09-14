@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using BlazorChess.Shared.Models.Pieces;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BlazorChess.Shared.Models
 {
@@ -34,7 +35,7 @@ namespace BlazorChess.Shared.Models
             
         }
 
-        public bool Move(int fromX, int fromY, int toX, int toY)
+        public bool Move(int fromX, int fromY, int toX, int toY, PromotionChoise promotionChoise)
         {
             var toMove = GameBoard.Tiles[fromX, fromY].OccupyingPiece;
 
@@ -48,7 +49,7 @@ namespace BlazorChess.Shared.Models
                 return false;
             }
 
-            bool allowedMove = GameBoard.Move(fromX, fromY, toX, toY);
+            bool allowedMove = GameBoard.Move(fromX, fromY, toX, toY, promotionChoise);
             if (allowedMove)
             {
                 IsBlackTurn = !IsBlackTurn;
@@ -57,9 +58,24 @@ namespace BlazorChess.Shared.Models
             return allowedMove;
 
         }
+
+        public bool RequiresPremotion(int fromX, int fromY, int toX, int toY)
+        {
+            var tocheck = GameBoard.Tiles[fromX, fromY].OccupyingPiece;
+            if(tocheck is Pawn)
+            {
+                int promotionY = tocheck.IsBlack ? 7:0;
+                if(toY == promotionY)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public bool Move(HistoryMove move)
         {
-            return Move(move.FromX, move.FromY, move.ToX, move.ToY);
+            return Move(move.FromX, move.FromY, move.ToX, move.ToY,move.PromotionChoise);
         }
 
 

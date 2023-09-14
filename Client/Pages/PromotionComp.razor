@@ -1,19 +1,45 @@
 ﻿@using BlazorChess.Shared.Models;
+@if (ModalVissible){
+    <div>
+        <button onclick="@(()=>{Done(PromotionChoise.Knight);})">Knight</button>
+        <button onclick="@(()=>{Done(PromotionChoise.Bishop);})">Bishop</button>
+        <button onclick="@(()=>{Done(PromotionChoise.Rook);})">Rook</button>
+        <button onclick="@(()=>{Done(PromotionChoise.Queen);})">Queen</button>
+    </div>
+}
 
-<ul>
-    <li>
-        <button>Knight</button>
-    </li>
-    <li>
-        <button>Bishop</button>
-    </li>
-    <li>
-        <button>Rook</button>
-    </li>
-    <li>
-        <button>Queen</button>
-    </li>
-</ul>
+<script>
+    function StartModal() {
+
+    }
+</script>
 
 @code {
+    private int X { get; set; }
+    private int Y { get; set; }
+    private bool ModalVissible { get; set; } = false;
+    private PromotionChoise ResultPiece { get; set; }
+    TaskCompletionSource<bool> mre { get; set; }
+
+    public async Task<PromotionChoise> Start()
+    {
+        ModalVissible = true;
+        StateHasChanged();
+        mre = new TaskCompletionSource<bool>();
+        return await GetResult();
+    }
+
+    public async Task<PromotionChoise> GetResult()
+    {
+        await mre.Task;
+        return ResultPiece;
+    }
+
+    private void Done(PromotionChoise piece)
+    {
+        ResultPiece = piece;
+        mre.SetResult(true);
+        ModalVissible = false;
+
+    }
 }
