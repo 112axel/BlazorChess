@@ -15,12 +15,13 @@ namespace BlazorChess.Shared.Models
         [NotMapped]
         public bool IsFlipped { get; set; }
 
-        public event Action OnChange;
-        public event Action OnSmallChange;
+        public event Action? OnChange;
+        public event Action? OnSmallChange;
 
         public Game()
         {
-            SetBaseState();
+            GameBoard = new Board();
+            IsBlackTurn = false;
         }
 
         public void SetMoveToShowToCurrent()
@@ -59,7 +60,7 @@ namespace BlazorChess.Shared.Models
 
         }
 
-        public bool RequiresPremotion(int fromX, int fromY, int toX, int toY)
+        public bool MoveRequiresPremotion(int fromX, int fromY, int toX, int toY)
         {
             var tocheck = GameBoard.Tiles[fromX, fromY].OccupyingPiece;
             if(tocheck is Pawn)

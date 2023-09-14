@@ -13,9 +13,9 @@
     }
 </ul>
 
-<button onclick="@CreateNewGame">create new game</button>
-<button onclick="@GetGames">get new game</button>
-<button onclick="@test">update</button>
+<button @onclick="CreateNewGame">create new game</button>
+<button @onclick="GetGames">get new game</button>
+<button @onclick="test">update</button>
 
 @if (SelectedGame != null)
 {

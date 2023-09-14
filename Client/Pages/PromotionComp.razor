@@ -19,26 +19,26 @@
     private int Y { get; set; }
     private bool ModalVissible { get; set; } = false;
     private PromotionChoise ResultPiece { get; set; }
-    TaskCompletionSource<bool> mre { get; set; }
+    TaskCompletionSource<bool>? pauseTask { get; set; }
 
     public async Task<PromotionChoise> Start()
     {
         ModalVissible = true;
         StateHasChanged();
-        mre = new TaskCompletionSource<bool>();
+        pauseTask = new TaskCompletionSource<bool>();
         return await GetResult();
     }
 
     public async Task<PromotionChoise> GetResult()
     {
-        await mre.Task;
+        await pauseTask!.Task;
         return ResultPiece;
     }
 
     private void Done(PromotionChoise piece)
     {
         ResultPiece = piece;
-        mre.SetResult(true);
+        pauseTask?.TrySetResult(true);
         ModalVissible = false;
 
     }

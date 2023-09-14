@@ -28,7 +28,7 @@
             @if (Game.GameBoard.Tiles[x, y].OccupyingPiece != null)
             {
                 <image x="@(flippedX*sizeMultiply)" y="@(flippedY*sizeMultiply)" width="@sizeMultiply" height="@sizeMultiply"
-                       href="@Game.GameBoard.Tiles[x,y].OccupyingPiece.AssetPath"
+                       href="@Game.GameBoard.Tiles[x,y].OccupyingPiece!.AssetPath"
                        onclick="@(() => HandleClick(x2,y2))">
                 </image>
             }
@@ -36,9 +36,6 @@
     }
 </svg>
 <PromotionComp @ref="PremotionPopup"></PromotionComp>
-
-
-@*<PromotionComp></PromotionComp>*@
 
 @code {
     [Parameter]
@@ -70,7 +67,7 @@
 
         Game.OnSmallChange += StateHasChanged;
 
-        await hubConnection.SendAsync("GetHistory", Game.Id);
+        await hubConnection!.SendAsync("GetHistory", Game.Id);
     }
 
     protected override async Task OnInitializedAsync()
@@ -161,7 +158,7 @@
         movingPiceY = y;
 
 
-        foreach (var move in Game.GameBoard.Tiles[x, y].OccupyingPiece.AllowedMoves(Game.GameBoard, x, y))
+        foreach (var move in Game.GameBoard.Tiles[x, y].OccupyingPiece!.AllowedMoves(Game.GameBoard, x, y))
         {
             if(Game.GameBoard.NextMoveAllowed(x, y, move.XDestination, move.YDestination))
             {
@@ -207,7 +204,7 @@
         }
 
         PromotionChoise promotionChoise = PromotionChoise.None;
-        if (Game.RequiresPremotion(movingPiceX, movingPiceY, toX, toY))
+        if (Game.MoveRequiresPremotion(movingPiceX, movingPiceY, toX, toY))
         {
             promotionChoise = await PremotionPopup.Start();
         }

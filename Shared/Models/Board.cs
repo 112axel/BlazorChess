@@ -45,7 +45,7 @@ namespace BlazorChess.Shared.Models
         public Board()
         {
             CreateTiles();
-            for (int i = 0; i < 2; i++)
+            for (int i = 0; i <= 1; i++)
             {
                 Tiles[0, 0 + 7 * i].OccupyingPiece = new Rook(i == 0);
                 Tiles[1, 0 + 7 * i].OccupyingPiece = new Knight(i == 0);
@@ -100,7 +100,6 @@ namespace BlazorChess.Shared.Models
         {
             //TODO replace this feels bad
             Point target = !isBlackTurn ? WhiteKingPos : BlackKingPos;
-            var x = 1;
             for (int i = 0; i <= 7; i++)
             {
                 for (int j = 0; j <= 7;j++)
@@ -109,10 +108,10 @@ namespace BlazorChess.Shared.Models
                     {
                         continue;
                     }
-                    if (Tiles[i,j].OccupyingPiece.IsBlack != isBlackTurn)
+                    if (Tiles[i,j].OccupyingPiece!.IsBlack != isBlackTurn)
                     {
                         var piece = Tiles[i, j].OccupyingPiece;
-                        var allowedMoves = piece.AllowedMoves(this, i, j);
+                        var allowedMoves = piece!.AllowedMoves(this, i, j);
                         var result = allowedMoves.FirstOrDefault(a=> a.XDestination == target.X && a.YDestination == target.Y);
                         if(result != null)
                         {
