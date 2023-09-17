@@ -1,19 +1,23 @@
 ﻿main{
     grid-area:board;
-    height:0;
+    height:inherit;
     /*padding-bottom:20%;*/
 }
 aside{
     grid-area:history;
     height:inherit;
 }
+footer{
+    grid-area:control;
+    display:grid;
+    justify-content:right;
+}
 
 .grid{
     display:grid;
     grid-template:
         "board history" 
+        "control control"
         /70fr 30fr;
     height:90vh
-
 }
-

@@ -11,7 +11,6 @@ namespace BlazorChess.Shared.Models.Pieces
         //TODO add a way to check if pawn has moved
         public override List<MoveOption> AllowedMoves(Board board, int x, int y)
         {
-
             var allAlowedMoves = PawnMove(board, x, y);
             allAlowedMoves.AddRange(KillingMove(board, x, y));
             return allAlowedMoves;
@@ -67,7 +66,7 @@ namespace BlazorChess.Shared.Models.Pieces
                 {
                     continue;
                 }
-                if (board.Tiles[moveX, moveY].OccupyingPiece.IsBlack != IsBlack)
+                if (board.Tiles[moveX, moveY].OccupyingPiece!.IsBlack != IsBlack)
                 {
                     outputMoves.Add(new MoveOption(moveX, moveY));
                 }

@@ -4,13 +4,15 @@
 <div class="grid">
     @* <p>@(Game.IsBlackTurn ? "Blacks" : "Whites") turn</p> *@
     <main>
-
         <BoardComp Game="Game"></BoardComp>
     </main>
     <aside>
         <HistoryComp Game="Game"></HistoryComp>
-        <ControlComp Game="Game"></ControlComp>
     </aside>
+    <footer>
+        <ControlComp Game="Game"></ControlComp>
+
+    </footer>
 </div>
 
 
@@ -20,11 +22,11 @@
     [Parameter]
     public Game Game { get; set; }
 
-    private Game OldGame{ get; set; }
+    private Game OldGame { get; set; }
 
     protected override void OnParametersSet()
     {
-        if(OldGame is not null)
+        if (OldGame is not null)
         {
             OldGame.OnChange -= StateHasChanged;
         }

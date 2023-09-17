@@ -65,6 +65,7 @@ namespace BlazorChess.Shared.Models
             var tocheck = GameBoard.Tiles[fromX, fromY].OccupyingPiece;
             if(tocheck is Pawn)
             {
+                
                 int promotionY = tocheck.IsBlack ? 7:0;
                 if(toY == promotionY)
                 {
